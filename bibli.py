@@ -16,17 +16,13 @@ class Personagem():
         self.nivel = 1
 
     #função de cálculo do dano e roubo de vida
-    def dano_causado (forca,roubo):##################precisa de ajuste############
-
-        #criação de temporárias
-        temp_for = forca
-        temp_roubo = roubo
+    def dano_causado(self):
 
         #calculo do dano causado + dano do roubo de vida
-        dano = float((10 * forca)*(temp_roubo/1000))
+        dano = float((10 * self.forca)*(self.furto/1000))
 
         #calculo da vida roubada durante o dano causado
-        vida_roubada = float(dano / (temp_roubo/100))
+        vida_roubada = float(dano / (self.furto/100))
 
         return (dano,vida_roubada)
         
@@ -39,29 +35,32 @@ class Jogador(Personagem):
         self.xp = xp
         super().__init__()
 
-        '''função para adicionar os pontos ao subir de nível do usuário, lembrando que são apenas 03 pontos que
-    o usuário ganha por nível e deve distribuir estes como desejar entre os atributos disponíveis'''
-    def subida_nivel ():############ precisa de ajuste#############
+    '''função para adicionar os pontos ao subir de nível do usuário, lembrando que são apenas 03 pontos que
+    o usuário ganha por nível e deve distribuir estes como desejar entre os atributos disponíveis'''  
+    def subida_nivel(self):
 
+        #ariaveis temporárias de distribuição
         vita_temp = 0
         for_temp = 0
         furto_temp = 0
         
-
-        print(' Você possui o seguinte status: \n Vitalidade:' '\n Força:',forca,'\n Furto de vida:',furto,'\n')
+        #print do status atual do personagem para servir de parâmentro para a distribuição
+        print(f' Você possui o seguinte status: \n Vitalidade:{self.vitalidade}\n Força:{self.forca}\n Furto de vida:{self.furto}\n')
         
         #while para validar a distribuição antes de retornar
         while True:
 
-            #zerando os valores para evitar bug na subida de lv
+            #zerando os valores para evitar bug/acumulo na subida de lv
             vita_temp = 0
             for_temp = 0
             furto_temp = 0
 
             #for para disponibilizar os atributos a distribuição
             for n in range (3):
-
+                
+                #x = n para eviter conflito na distribuição e apresentar precisamente os atribuitos a serem distribuidos
                 x = n
+
                 print('Vamos distribuir seus pontos? Você possui ', 3 - x,' Pontos para distribuir')
                 teste_distribuicao = input('Digite V, F ou L(V: vitalidade,F:força,L:roubo de vida): ')
 
@@ -86,14 +85,14 @@ class Jogador(Personagem):
 
             #caso positivo adição dos valores e saída
             if validador_distribuicao in 'Ss':
-                vitalidade += vita_temp
-                forca += for_temp
-                furto += furto_temp
+                self.vitalidade += vita_temp
+                self.forca += for_temp
+                self.furto += furto_temp
                 break
             
 
         #calculo de vida total do personagem
-        vida = float( 100 + (10 * vitalidade))
+        self.vida = float( 100 + (10 * self.vitalidade))
        
 #classe oponente
 class Oponente(Personagem):
