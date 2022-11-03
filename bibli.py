@@ -16,15 +16,27 @@ class Personagem():
         self.nivel = 1
 
     #função de cálculo do dano e roubo de vida
-    def dano_causado(self):
+    def causar_dano(self):
 
         #calculo do dano causado + dano do roubo de vida
         dano = float((10 * self.forca)*(self.furto/1000))
 
         #calculo da vida roubada durante o dano causado
-        vida_roubada = float(dano / (self.furto/100))
+        #tratamento de erro em caso de furto de vida = 0
+        try:
+            vida_roubada = float(dano / (self.furto/100))
+            print(f'roubo de {vida_roubada} de vida')
+            self.vida += vida_roubada
+            
+            return (dano)
+        except:
+            print('Furto de vida = 0')
 
-        return (dano,vida_roubada)
+    #função para receber dano causado pelo adversário
+    def receber_dano(self,dano):
+
+        self.vida -= dano
+
         
 #classe jogador
 class Jogador(Personagem):
@@ -73,6 +85,9 @@ class Jogador(Personagem):
 
                 elif teste_distribuicao in 'Ll':
                     furto_temp += 1
+                
+                else:
+                    print('Dado incorreto!')
 
             #apresentação da distribuição feita 
             print('\n Você irá adicionar os seguites pontos:')
@@ -102,16 +117,13 @@ class Oponente(Personagem):
         super().__init__()
 
     #função para criação dos atributos do inimigo
-    #OBS: ESTE ITEM "random" NÃO FOI DADO EM SALA
-    #####################precisa de ajuste###########################
-    def born_inimigo (vita_ene,for_ene,furto_ene,vida_ene,lv_player):
-        
-        #declaração de variaveis temporárias
-        vita_temp = 0
-        for_temp = 0
-        furto_temp = 0
-        vida_temp = 50
+    def born_inimigo (self,lv_player):
 
+        #zerando dados do inimigo antes da sua criação
+        self.forca = 0
+        self.furto = 0
+        self.vida = 50
+        self.vitalidade = 0
 
         #calculando os pontos a serem distribuidos 
         pontos_inimigo = (3 * lv_player)
@@ -129,7 +141,7 @@ class Oponente(Personagem):
                 temp_local = random.randint(0,pontos_inimigo)
 
                 #adição do valor ao atribuito
-                vita_temp += temp_local
+                self.vitalidade += temp_local
 
                 #dedução dos pontos atribuidos ao total disponivel para distribuição
                 pontos_inimigo -= temp_local
@@ -141,7 +153,7 @@ class Oponente(Personagem):
                 temp_local = random.randint(0,pontos_inimigo)
 
                 #adição do valor ao atribuito
-                for_temp += temp_local
+                self.forca += temp_local
 
                 #dedução dos pontos atribuidos ao total disponivel para distribuição
                 pontos_inimigo -= temp_local
@@ -153,20 +165,13 @@ class Oponente(Personagem):
                 temp_local = random.randint(0,pontos_inimigo)
 
                 #adição do valor ao atribuito
-                furto_temp += temp_local
+                self.furto += temp_local
 
                 #dedução dos pontos atribuidos ao total disponivel para distribuição
                 pontos_inimigo -= temp_local
         
         #calculo dos pontos de vida do inimigo
-        vida_ene = float( vida_temp + (10 * vita_temp))
-
-        #atribuição dos pontos 
-        vita_ene = vita_temp
-        for_ene = for_temp
-        furto_ene = furto_temp
-
-        return vida_ene,for_ene,furto_ene,vida_ene
+        self.vida = float( self.vida + (10 * self.vitalidade))
 
 
 ########################################################################################
@@ -181,7 +186,7 @@ def limpa_tela ():
 #OBS: ESTE ITEM "sleep" NÃO FOI DADO EM SALA
 def delay_print ():
 
-    delay = 1.5
+    delay = 1.0
 
     sleep(delay)
 
