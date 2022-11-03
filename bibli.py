@@ -12,32 +12,32 @@ class Personagem():
         self.vitalidade = 0.0
         self.forca = 0.0
         self.furto = 0.0
-        self.vida = 100
+        self.vida = 100.0
         self.nivel = 1
 
     #função de cálculo do dano e roubo de vida
     def causar_dano(self):
-
+    
         #calculo do dano causado + dano do roubo de vida
-        dano = float((10 * self.forca)*(self.furto/1000))
+        dano = float((10 * self.forca)+(self.furto/1000))
 
         #calculo da vida roubada durante o dano causado
         #tratamento de erro em caso de furto de vida = 0
         try:
             vida_roubada = float(dano / (self.furto/100))
             print(f'roubo de {vida_roubada} de vida')
+            delay_print()
             self.vida += vida_roubada
             
             return (dano)
         except:
-            print('Furto de vida = 0')
+            print('Atributo = 0')
 
     #função para receber dano causado pelo adversário
     def receber_dano(self,dano):
+        vida = self.vida
+        self.vida = vida - dano
 
-        self.vida -= dano
-
-        
 #classe jogador
 class Jogador(Personagem):
 
@@ -52,9 +52,9 @@ class Jogador(Personagem):
     def subida_nivel(self):
 
         #ariaveis temporárias de distribuição
-        vita_temp = 0
-        for_temp = 0
-        furto_temp = 0
+        vita_temp = 0.0
+        for_temp = 0.0
+        furto_temp = 0.0
         
         #print do status atual do personagem para servir de parâmentro para a distribuição
         print(f' Você possui o seguinte status: \n Vitalidade:{self.vitalidade}\n Força:{self.forca}\n Furto de vida:{self.furto}\n')
@@ -63,9 +63,9 @@ class Jogador(Personagem):
         while True:
 
             #zerando os valores para evitar bug/acumulo na subida de lv
-            vita_temp = 0
-            for_temp = 0
-            furto_temp = 0
+            vita_temp = 0.0
+            for_temp = 0.0
+            furto_temp = 0.0
 
             #for para disponibilizar os atributos a distribuição
             for n in range (3):
@@ -103,12 +103,14 @@ class Jogador(Personagem):
                 self.vitalidade += vita_temp
                 self.forca += for_temp
                 self.furto += furto_temp
+                self.xp = 0
+                limpa_tela()
                 break
             
 
         #calculo de vida total do personagem
         self.vida = float( 100 + (10 * self.vitalidade))
-       
+
 #classe oponente
 class Oponente(Personagem):
 
@@ -122,7 +124,7 @@ class Oponente(Personagem):
         #zerando dados do inimigo antes da sua criação
         self.forca = 0
         self.furto = 0
-        self.vida = 50
+        self.vida = 50.0
         self.vitalidade = 0
 
         #calculando os pontos a serem distribuidos 
@@ -171,8 +173,7 @@ class Oponente(Personagem):
                 pontos_inimigo -= temp_local
         
         #calculo dos pontos de vida do inimigo
-        self.vida = float( self.vida + (10 * self.vitalidade))
-
+        self.vida =  self.vida + (10 * self.vitalidade)
 
 ########################################################################################
 #outras funções de uso
@@ -186,13 +187,6 @@ def limpa_tela ():
 #OBS: ESTE ITEM "sleep" NÃO FOI DADO EM SALA
 def delay_print ():
 
-    delay = 1.0
+    delay = 0.5
 
     sleep(delay)
-
-
-
-    
-
-
-
