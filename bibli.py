@@ -109,7 +109,7 @@ class Jogador(Personagem):
             
 
         #calculo de vida total do personagem
-        self.vida = float( 100 + (10 * self.vitalidade))
+        self.vida = float( 100.0 + (10.0 * self.vitalidade))
 
 #classe oponente
 class Oponente(Personagem):
@@ -122,13 +122,13 @@ class Oponente(Personagem):
     def born_inimigo (self,lv_player):
 
         #zerando dados do inimigo antes da sua criação
-        self.forca = 0
-        self.furto = 0
+        self.forca = 0.0
+        self.furto = 0.0
         self.vida = 50.0
-        self.vitalidade = 0
+        self.vitalidade = 0.0
 
         #calculando os pontos a serem distribuidos 
-        pontos_inimigo = (3 * lv_player)
+        pontos_inimigo =float(3 * lv_player)
 
         #distribuição dos pontos 
         while pontos_inimigo > 0:
@@ -173,7 +173,7 @@ class Oponente(Personagem):
                 pontos_inimigo -= temp_local
         
         #calculo dos pontos de vida do inimigo
-        self.vida =  self.vida + (10 * self.vitalidade)
+        self.vida =  self.vida + (10.0 * self.vitalidade)
 
 ########################################################################################
 #outras funções de uso
