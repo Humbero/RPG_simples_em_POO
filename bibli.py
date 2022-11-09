@@ -23,21 +23,24 @@ class Personagem():
 
         #calculo da vida roubada durante o dano causado
         #tratamento de erro em caso de furto de vida = 0
-        try:
-            vida_roubada = float(dano / (self.furto/100))
-            print(f'roubo de {vida_roubada} de vida')
-            delay_print()
-            self.vida += vida_roubada
-            
-            return (dano)
-        except:
-            print('Atributo = 0')
+        if dano > 0:
+            try:
+                vida_roubada = float(dano / (self.furto/100))
+                print(f'roubo de {vida_roubada} de vida')
+                delay_print()
+                self.vida += vida_roubada
+                
+                return (dano)
+            except:
+                print('Atributo = 0')
 
     #função para receber dano causado pelo adversário
     def receber_dano(self,dano):
-        vida = self.vida
-        self.vida = vida - dano
-
+        if dano == 0:
+            print('Dano = 0')
+            
+        else:
+            self.vida -= dano
 #classe jogador
 class Jogador(Personagem):
 

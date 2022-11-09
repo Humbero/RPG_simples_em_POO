@@ -29,12 +29,16 @@ while True:
         print('Você subiu de nível!')
         player.subida_nivel()
         delay_print()
-        limpa_tela()
+       # limpa_tela()
 
     #segunda condição de saída
     elif player.nivel == 100:
         print('Você venceu o jogo!')
+        break
 
+    elif player.vida <= 0.0:
+        print('Você morreu!')
+        break
  
     #modo de combate
     while True:
@@ -49,10 +53,11 @@ while True:
             delay_print()
 
             if inimigo.vida > 0:
-
-                dano = inimigo.causar_dano()
-                print(f'O inimigo causou um dano de:\n {dano}\ne roubou:')
-                player.receber_dano(dano)
+                
+                dano_enemy = 0.0
+                dano_enemy = inimigo.causar_dano()
+                print(f'O inimigo causou um dano de: {dano_enemy}\ne roubou:')
+                player.receber_dano(dano_enemy)
                 print(f'Vida de {player.nome} = {player.vida}\nVida do inimigo = {inimigo.vida}')
                 print('\n')
                 delay_print()
